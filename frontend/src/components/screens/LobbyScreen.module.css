@@ -703,18 +703,65 @@
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .card { padding: 16px 12px; }
-  .cardTitle { font-size: 32px; letter-spacing: 0.06em; }
-  .statsGrid { grid-template-columns: 1fr 1fr; }
+  .card { padding: 20px 16px; }
+
+  /* Title: clamp to smaller range, allow wrapping */
+  .cardTitle {
+    font-size: clamp(15px, 5vw, 22px);
+    white-space: normal;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  /* Smaller radar */
+  .radar { width: 130px; height: 130px; margin-bottom: 20px; }
+  .radarOuterRing { inset: -10px; }
+
+  /* Stats: 2-column, last card spans full width */
+  .statsGrid { grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
   .statsGrid > .statCard:last-child { grid-column: 1 / -1; }
-  .radar { width: 140px; height: 140px; }
-  .radarBars { right: -28px; }
+
+  /* Smaller stat values */
+  .statCardValue { font-size: 1.4rem; }
+  .statCardLabel { font-size: 9px; }
+  .statCardText  { font-size: 0.85rem; }
+
   .statusTicker { display: none; }
   .coordInputs { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+  .main { padding-top: 88px; padding-bottom: 72px; }
+
+  /* Header: shrink logo text, hide network label */
+  .headerLogo { font-size: 15px; letter-spacing: 0.08em; }
+  .networkLabel { display: none; }
+  .networkPill { padding: 4px 8px; }
+
+  /* Card */
   .card { padding: 16px 12px; }
+  .cardTitle { font-size: clamp(14px, 4.5vw, 19px); }
+
+  /* Radar */
+  .radar { width: 110px; height: 110px; margin-bottom: 16px; }
+  .radarOuterRing { inset: -8px; }
+
+  /* Stat values */
+  .statCardValue { font-size: 1.25rem; }
+
+  /* Footer: hide left, compress right */
+  .footerLeft { display: none; }
+  .footerRight { gap: 10px; font-size: 9px; }
+
+  /* Button */
+  .btnPrimary { padding: 13px; font-size: 13px; }
+  .statusBadge { font-size: 11px; }
+}
+
+@media (max-width: 380px) {
   .statsGrid { grid-template-columns: 1fr; }
   .statsGrid > .statCard:last-child { grid-column: auto; }
+  .cardTitle { font-size: 14px; }
+  .headerLogoWrap { width: 28px; height: 28px; }
+  .headerLogoImg  { width: 28px; height: 28px; }
 }
