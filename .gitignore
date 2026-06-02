@@ -44,3 +44,6 @@ design-ref/
 
 # ── Local docs / planning notes ───────────────────────────────────────────────
 docs/
+
+# ── Claude project instructions (local only) ──────────────────────────────────
+CLAUDE.md
