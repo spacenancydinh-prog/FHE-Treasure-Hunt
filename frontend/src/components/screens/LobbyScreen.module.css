@@ -225,8 +225,8 @@
 .main {
   position: relative;
   z-index: 10;
-  padding-top: 104px;
-  padding-bottom: 88px;
+  padding-top: 80px;
+  padding-bottom: 60px;
   min-height: 100vh;
   display: flex;
   align-items: safe center;
@@ -239,7 +239,7 @@
 .card {
   max-width: 680px;
   width: 100%;
-  padding: 40px 32px;
+  padding: 28px 32px;
   background: radial-gradient(ellipse at 50% 35%, rgba(0, 219, 231, 0.025) 0%, rgba(14, 14, 14, 0.8) 52%, rgba(2, 2, 2, 0.96) 100%);
   backdrop-filter: blur(20px);
   border: none;
@@ -278,7 +278,7 @@
   line-height: 1.05;
   color: #e5e2e1;
   font-style: italic;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
   white-space: nowrap;
   text-shadow:
     0 0 40px rgba(0, 219, 231, 1),
@@ -288,9 +288,9 @@
 /* ── Radar ── */
 .radar {
   position: relative;
-  width: 240px;
-  height: 240px;
-  margin: 0 auto 28px;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
