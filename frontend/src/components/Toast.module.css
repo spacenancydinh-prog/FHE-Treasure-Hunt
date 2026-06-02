@@ -1,0 +1,60 @@
+.container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 380px;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-2);
+  backdrop-filter: blur(20px);
+  border: 1px solid;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  animation: slideIn 0.25s ease-out;
+}
+
+.error {
+  border-color: rgba(220, 80, 255, 0.5);
+  color: var(--secondary);
+  box-shadow: 0 0 16px rgba(220, 80, 255, 0.2);
+}
+
+.info {
+  border-color: rgba(0, 242, 255, 0.4);
+  color: var(--primary);
+  box-shadow: 0 0 16px rgba(0, 242, 255, 0.15);
+}
+
+.message {
+  flex: 1;
+  word-break: break-word;
+}
+
+.close {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: var(--text-faint);
+  padding: 0;
+  line-height: 1;
+  margin-top: 1px;
+  transition: color 0.15s;
+}
+
+.close:hover {
+  color: var(--text);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}

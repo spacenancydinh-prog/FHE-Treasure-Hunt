@@ -1,0 +1,30 @@
+# ── Environment variables (NEVER commit these) ──────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Foundry build artifacts ───────────────────────────────────────────────────
+cache/
+out/
+broadcast/
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+lib/
+
+# ── Verification artifacts ───────────────────────────────────────────────────
+*.flattened.sol
+
+# ── Debug / temp files ────────────────────────────────────────────────────────
+*.log
+treasure_output.log
+debug_revert.*
+check_*.sh
+check_*.ts
+etherscan-input.json
+
+# ── OS / Editor ──────────────────────────────────────────────────────────────
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

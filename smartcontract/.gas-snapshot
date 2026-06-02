@@ -1,0 +1,6 @@
+TreasureHuntTest:test_CheckProximityHot() (gas: 3526356)
+TreasureHuntTest:test_ClaimWin() (gas: 1303153)
+TreasureHuntTest:test_GameInitialization() (gas: 13541)
+TreasureHuntTest:test_JoinGame() (gas: 474109)
+TreasureHuntTest:test_Move() (gas: 827989)
+TreasureHuntTest:test_SetTreasure() (gas: 385285)

@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg:          #050505;
+  --bg-2:        #131313;
+  --bg-3:        #1c1b1b;
+  --bg-4:        #201f1f;
+  --primary:     #00f2ff;
+  --primary-dim: #00dbe7;
+  --secondary:   #dc50ff;
+  --text:        #e5e2e1;
+  --text-soft:   #b9cacb;
+  --text-faint:  #849495;
+  --border:      rgba(132, 148, 149, 0.15);
+  --border-cyan: rgba(0, 219, 231, 0.3);
+  --border-hot:  rgba(220, 80, 255, 0.3);
+  --panel-bg:    rgba(255, 255, 255, 0.03);
+  --frozen:      #00b3cc;
+  --cold:        #0066cc;
+  --warm:        #ff9900;
+  --hot:         #dc50ff;
+}
