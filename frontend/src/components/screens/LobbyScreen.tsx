@@ -93,7 +93,6 @@ export function LobbyScreen({ game }: Props) {
           <div className={s.headerLogoWrap}>
             <img src="/FHE_LOGO.jpg" alt="Fhenix" className={s.headerLogoImg} />
           </div>
-          <span className={s.headerLogo}>TREASURE HUNT</span>
         </div>
         <div className={s.headerRight}>
           <div className={s.networkPill}>
