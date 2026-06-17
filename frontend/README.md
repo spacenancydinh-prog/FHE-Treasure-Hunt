@@ -7,7 +7,7 @@ A blockchain treasure hunt game where all positions are encrypted using Fully Ho
 ## Stack
 
 - React + Vite + TypeScript
-- wagmi v2 + viem (wallet/chain)
+- wagmi v3 + viem v2 (wallet/chain)
 - @cofhe/sdk (FHE client-side encryption)
 - Deployed on Ethereum Sepolia — contract `0x59C161D28aF2D8f5929FC1bEDCCC3dae12dbDA54`
 

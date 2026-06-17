@@ -110,7 +110,7 @@ fhe-treasure-hunt/
 │   │   │   ├── GameBoard.tsx         # 16×16 grid, movement, scan, claim
 │   │   │   └── VictoryScreen.tsx     # Winner display, prize amount
 │   │   ├── hooks/
-│   │   │   ├── useGameState.ts       # Multicall polling, localStorage cache
+│   │   │   ├── useGameState.ts       # Multicall polling, stable phase guard, localStorage persist
 │   │   │   ├── useFHEEncrypt.ts      # @cofhe/sdk init, encrypt, decrypt
 │   │   │   ├── useGameContract.ts    # All write TXs (join, move, claim)
 │   │   │   └── useBurnerWallet.ts    # Deterministic session key, gas-optimized moves
@@ -276,7 +276,7 @@ refetchInterval: 2_000   // Every 2s, unconditional
 staleTime: 0             // Data always considered stale → every tick sends real RPC call
 ```
 
-8 on-chain reads batched into one `useReadContracts` multicall per tick. Results cached to `localStorage` as `placeholderData` — UI shows last known state instantly on reload.
+8 on-chain reads batched into one `useReadContracts` multicall per tick. No localStorage cache for on-chain data — every poll hits the RPC directly so state is always fresh.
 
 **Stable phase guard:** A `useRef` stores the last known valid `gameState`. If the RPC returns `undefined` (network hiccup), the cached value is used instead of defaulting to 0 (WAITING), which would wrongly eject active players back to the lobby.
 
@@ -329,7 +329,7 @@ Slot 14: hasPendingClaim mapping base
 ### Requirements
 
 - [Foundry](https://book.getfoundry.sh/getting-started/installation) 1.5.1+
-- Node.js 18+
+- Node.js 20.19+ (required by Vite 8)
 - MetaMask or Rabby with Sepolia ETH
 
 ### Smart contract
