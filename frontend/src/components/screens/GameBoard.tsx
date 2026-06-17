@@ -6,12 +6,7 @@ import { injected } from 'wagmi/connectors'
 import { useGameContract } from '../../hooks/useGameContract'
 import { PING_COLOR, PING_PERCENT, GRID_SIZE, type PingLevel } from '../../types/game'
 import type { GameStateHook } from '../../hooks/useGameState'
-import { CONTRACT_ADDRESS } from '../../lib/contract'
 import s from './GameBoard.module.css'
-
-function feedStorageKey(addr: string) {
-  return `fhe-hunt:${CONTRACT_ADDRESS}:${addr.toLowerCase()}:feed`
-}
 
 type Props = { game: GameStateHook }
 
@@ -31,14 +26,7 @@ export function GameBoard({ game }: Props) {
   const publicClient = usePublicClient()
   const contract = useGameContract()
 
-  const [feed, setFeed] = useState<FeedEntry[]>(() => {
-    if (!address) return [{ time: timestamp(), text: 'Game active — start hunting', kind: 'cyan' as const }]
-    try {
-      const saved = localStorage.getItem(feedStorageKey(address))
-      if (saved) return JSON.parse(saved) as FeedEntry[]
-    } catch {}
-    return [{ time: timestamp(), text: 'Game active — start hunting', kind: 'cyan' as const }]
-  })
+  const [feed, setFeed] = useState<FeedEntry[]>([{ time: timestamp(), text: 'Game active — start hunting', kind: 'cyan' }])
   const [showClaimModal, setShowClaimModal] = useState(false)
   const [claimX, setClaimX] = useState(game.playerPos?.x ?? 0)
   const [claimY, setClaimY] = useState(game.playerPos?.y ?? 0)
@@ -109,12 +97,6 @@ export function GameBoard({ game }: Props) {
 
     return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', init) }
   }, [])
-
-  // Persist feed to localStorage whenever it changes
-  useEffect(() => {
-    if (!address) return
-    try { localStorage.setItem(feedStorageKey(address), JSON.stringify(feed)) } catch {}
-  }, [feed, address])
 
   const pos = game.playerPos ?? { x: 7, y: 7 }
   const isPending = contract.txStatus === 'encrypting' || contract.txStatus === 'pending' || contract.txStatus === 'confirming' || contract.txStatus === 'decrypting'
