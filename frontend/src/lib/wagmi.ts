@@ -1,16 +1,16 @@
-import { createConfig, http, fallback } from 'wagmi'
+import { createConfig, http, webSocket, fallback } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 import { injected, metaMask } from 'wagmi/connectors'
 
-const PRIMARY_RPC = import.meta.env.VITE_SEPOLIA_RPC
-
 const endpoints = [
-  // Paid endpoint first — most reliable, no rate-limit issues from Vercel
-  ...(PRIMARY_RPC ? [http(PRIMARY_RPC,                      { retryCount: 3, retryDelay: 400 })] : []),
-  // Public fallbacks
-  http('https://sepolia.drpc.org',                          { retryCount: 2, retryDelay: 400 }),
-  http('https://ethereum-sepolia-rpc.publicnode.com',       { retryCount: 2, retryDelay: 400 }),
-  http('https://1rpc.io/sepolia',                           { retryCount: 2, retryDelay: 400 }),
+  http('https://eth-sepolia.g.alchemy.com/v2/rjATHv5NutxS6nUQp2ra1', { retryCount: 2, retryDelay: 400 }),
+  http('https://ethereum-sepolia-public.nodies.app',                   { retryCount: 2, retryDelay: 400 }),
+  http('https://0xrpc.io/sep',                                         { retryCount: 2, retryDelay: 400 }),
+  http('https://sepolia.rpc.sentio.xyz',                               { retryCount: 2, retryDelay: 400 }),
+  http('https://eth-sepolia.api.onfinality.io/public',                 { retryCount: 2, retryDelay: 400 }),
+  http('https://api.zan.top/eth-sepolia',                              { retryCount: 2, retryDelay: 400 }),
+  http('https://ethereum-sepolia-rpc.publicnode.com',                  { retryCount: 2, retryDelay: 400 }),
+  webSocket('wss://sepolia.drpc.org',                                  { retryCount: 2, retryDelay: 400 }),
 ]
 
 // rank: true → viem benchmarks all RPCs every 60s and routes to the fastest one
