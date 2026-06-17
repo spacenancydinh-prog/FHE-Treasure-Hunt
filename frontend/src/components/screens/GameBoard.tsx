@@ -44,6 +44,7 @@ export function GameBoard({ game }: Props) {
   const [claimY, setClaimY] = useState(game.playerPos?.y ?? 0)
   const [claimPhase, setClaimPhase] = useState<'idle' | 'tx1' | 'decrypt' | 'tx2' | 'wrong' | 'won'>('idle')
   const [isFunding, setIsFunding] = useState(false)
+  const [isDeriving, setIsDeriving] = useState(false)
   const feedRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -481,17 +482,30 @@ export function GameBoard({ game }: Props) {
                 </div>
                 <button
                   onClick={async () => {
-                    try { await contract.burner.deriveSessionKey() } catch {}
+                    if (isDeriving) return
+                    setIsDeriving(true)
+                    try {
+                      await contract.burner.deriveSessionKey()
+                    } catch (e: any) {
+                      const msg = e?.shortMessage ?? e?.message ?? ''
+                      if (!msg.toLowerCase().includes('reject') && !msg.toLowerCase().includes('denied')) {
+                        addFeed(`Session key error: ${msg}`, 'default')
+                      }
+                    } finally {
+                      setIsDeriving(false)
+                    }
                   }}
-                  disabled={isPending}
+                  disabled={isPending || isDeriving}
                   style={{
                     width: '100%', padding: '8px', background: 'none',
                     border: '1px solid rgba(0,242,255,0.4)', color: 'var(--primary)',
                     fontFamily: 'Inter', fontSize: 10, fontWeight: 700,
-                    letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
+                    letterSpacing: '0.15em', textTransform: 'uppercase',
+                    cursor: isDeriving ? 'not-allowed' : 'pointer',
+                    opacity: isDeriving ? 0.6 : 1,
                   }}
                 >
-                  DERIVE SESSION KEY (FREE)
+                  {isDeriving ? 'WAITING FOR SIGNATURE...' : 'DERIVE SESSION KEY (FREE)'}
                 </button>
               </div>
             )}
