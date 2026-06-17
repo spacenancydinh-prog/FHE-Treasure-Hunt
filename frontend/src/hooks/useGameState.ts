@@ -147,11 +147,14 @@ export function useGameState() {
   useWatchContractEvent({ ...watchOpts, eventName: 'PlayerJoined', onLogs: refetch })
   useWatchContractEvent({ ...watchOpts, eventName: 'GameCreated',  onLogs: refetch })
   useWatchContractEvent({ ...watchOpts, eventName: 'GameWon',      onLogs: refetch })
-  useWatchContractEvent({ ...watchOpts, eventName: 'GameReset',    onLogs: () => { refetch(); resetLocal() } })
+  useWatchContractEvent({ ...watchOpts, eventName: 'GameReset',    onLogs: () => { resetLocal(); refetch() } })
 
   function resetLocal() {
     if (address) clearPersistedState(address)
-    restoredForAddr.current = null // allow re-restore if address stays the same after reset
+    // Also wipe the on-chain cache so old game stats don't show as placeholderData
+    try { localStorage.removeItem(ON_CHAIN_CACHE_KEY) } catch {}
+    lastKnownRawState.current = null
+    restoredForAddr.current = null
     setLastPing(null)
     setPingHistory([])
     setPlayerPos(null)
