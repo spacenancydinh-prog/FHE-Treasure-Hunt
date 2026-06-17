@@ -2,7 +2,7 @@
 
 A fully on-chain multiplayer treasure hunt where **all player positions and the treasure coordinate are encrypted end-to-end using Fully Homomorphic Encryption (FHE)**. No server, no oracle, no trusted intermediary — the contract computes proximity on ciphertext, and only the individual player can decrypt their own proximity reading.
 
-**Live demo:** [https://frontend-one-wheat-31.vercel.app](https://frontend-one-wheat-31.vercel.app)  
+**Live demo:** [https://fhe-treasure-hunt.vercel.app](https://fhe-treasure-hunt.vercel.app)  
 **Contract (Ethereum Sepolia):** [`0x59C161D28aF2D8f5929FC1bEDCCC3dae12dbDA54`](https://sepolia.etherscan.io/address/0x59C161D28aF2D8f5929FC1bEDCCC3dae12dbDA54)
 
 ---
