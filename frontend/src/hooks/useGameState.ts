@@ -98,7 +98,9 @@ export function useGameState() {
   const chainMoves        = (data?.[7]?.result as bigint  | undefined) ?? 0n
 
   // Restore from localStorage when wallet connects (once per address)
-  // Guard: if player is not joined on-chain, discard any stale saved state
+  // Guards:
+  //   1. hasJoined === false → not in current game, discard stale state
+  //   2. chainMoves === 0 but saved.moveCount > 0 → game was reset, localStorage is from old game
   useEffect(() => {
     if (!address || restoredForAddr.current === address) return
     if (data === undefined) return  // wait for first on-chain fetch before deciding
@@ -106,7 +108,12 @@ export function useGameState() {
     const saved = loadPersistedState(address)
     if (!saved) return
     if (!hasJoined) {
-      // Not in the current game — stale state from a previous game, discard it
+      clearPersistedState(address)
+      return
+    }
+    // On-chain move count resets to 0 after resetGame(). If localStorage has moves
+    // but chain shows 0, the saved state belongs to a previous game — discard it.
+    if (Number(chainMoves) === 0 && saved.moveCount > 0) {
       clearPersistedState(address)
       return
     }
@@ -115,7 +122,7 @@ export function useGameState() {
     if (saved.moveCount)    setMoveCount(saved.moveCount)
     if (saved.lastPing)     setLastPing(saved.lastPing)
     if (saved.pingHistory)  setPingHistory(saved.pingHistory)
-  }, [address, data, hasJoined])
+  }, [address, data, hasJoined, chainMoves])
 
   // Persist to localStorage whenever client-side game state changes
   useEffect(() => {
