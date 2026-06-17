@@ -38,6 +38,7 @@ function savePersistedState(addr: string, state: PersistedState) {
 function clearPersistedState(addr: string) {
   try {
     localStorage.removeItem(storageKey(addr))
+    localStorage.removeItem(storageKey(addr) + ':feed')
   } catch {}
 }
 
