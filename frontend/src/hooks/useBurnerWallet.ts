@@ -39,7 +39,7 @@ export function useBurnerWallet(playerAddress: `0x${string}` | undefined) {
     burnerClientRef.current = createWalletClient({
       account: burnerAccount,
       chain: sepolia,
-      transport: http(import.meta.env.VITE_SEPOLIA_RPC || 'https://api.zan.top/eth-sepolia'),
+      transport: http(import.meta.env.VITE_SEPOLIA_RPC || 'https://ethereum-sepolia-rpc.publicnode.com'),
     })
     fheRef.current = null
     setFheReady(false)
