@@ -1,5 +1,5 @@
 import { useReadContracts, useAccount, useWatchContractEvent } from 'wagmi'
-import { useCallback, useState, useEffect, useRef, useMemo } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import { TREASURE_HUNT_ABI } from '../lib/abi'
 import { CONTRACT_ADDRESS, ZERO_ADDRESS } from '../lib/contract'
 import type { GamePhase, PingLevel } from '../types/game'
@@ -43,15 +43,8 @@ function clearPersistedState(addr: string) {
 
 const ON_CHAIN_CACHE_KEY = `fhe-hunt:onchain:${CONTRACT_ADDRESS}`
 
-function loadOnChainCache() {
-  try {
-    const raw = localStorage.getItem(ON_CHAIN_CACHE_KEY)
-    return raw ? JSON.parse(raw) : undefined
-  } catch { return undefined }
-}
-
-function saveOnChainCache(data: unknown) {
-  try { localStorage.setItem(ON_CHAIN_CACHE_KEY, JSON.stringify(data)) } catch {}
+function clearOnChainCache() {
+  try { localStorage.removeItem(ON_CHAIN_CACHE_KEY) } catch {}
 }
 
 export function useGameState() {
@@ -69,9 +62,6 @@ export function useGameState() {
   const contract = { address: CONTRACT_ADDRESS, abi: TREASURE_HUNT_ABI } as const
   const playerAddr = address ?? ZERO_ADDRESS as `0x${string}`
 
-  // Read cached on-chain state from localStorage for instant first render
-  const cachedOnChain = useMemo(() => loadOnChainCache(), [])
-
   // Single multicall — all reads batched into 1 RPC round-trip via Multicall3
   const { data, refetch: refetchAll } = useReadContracts({
     contracts: [
@@ -85,9 +75,8 @@ export function useGameState() {
       { ...contract, functionName: 'getMoveCount', args: [playerAddr] },
     ] as const,
     query: {
-      refetchInterval: 2_000,  // static — staleTime:0 ensures every tick is a real RPC call
-      staleTime: 0,            // always stale; prevents refetchInterval from being skipped
-      placeholderData: cachedOnChain,
+      refetchInterval: 2_000,
+      staleTime: 0,
     },
   })
 
@@ -97,10 +86,6 @@ export function useGameState() {
     if (rawStateOnChain !== undefined) lastKnownRawState.current = rawStateOnChain
   }, [rawStateOnChain])
 
-  // Cache on-chain data for instant display on next page load
-  useEffect(() => {
-    if (data && rawStateOnChain !== undefined) saveOnChainCache(data)
-  }, [data, rawStateOnChain])
   const rawState       = rawStateOnChain ?? lastKnownRawState.current ?? 0
 
   const pot            = (data?.[1]?.result as bigint  | undefined) ?? 0n
@@ -151,8 +136,7 @@ export function useGameState() {
 
   function resetLocal() {
     if (address) clearPersistedState(address)
-    // Also wipe the on-chain cache so old game stats don't show as placeholderData
-    try { localStorage.removeItem(ON_CHAIN_CACHE_KEY) } catch {}
+    clearOnChainCache()
     lastKnownRawState.current = null
     restoredForAddr.current = null
     setLastPing(null)
